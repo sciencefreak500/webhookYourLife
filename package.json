@@ -1,0 +1,33 @@
+{
+  "name": "webhookyourlife",
+  "version": "1.0.0",
+  "description": "easy way to automate your life with webhooks",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sciencefreak500/webhookYourLife.git"
+  },
+  "keywords": [
+    "webhook",
+    "life",
+    "automate"
+  ],
+  "author": "George Milord",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sciencefreak500/webhookYourLife/issues"
+  },
+  "homepage": "https://github.com/sciencefreak500/webhookYourLife#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "child_process": "^1.0.2",
+    "express": "^4.16.2",
+    "express-chrome-logger": "^0.1.5",
+    "multer": "^1.3.0",
+    "node-webhooks": "^1.3.0",
+    "request": "^2.83.0"
+  }
+}
