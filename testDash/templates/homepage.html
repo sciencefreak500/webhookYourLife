@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homepage</title>
+</head>
+<body>
+  
+
+  <!--  LOGIN AND SIGNUP SECTION -->
+  <div id="HomeB" class="w3-animate-opacity">
+    <img src="../img/download2.png" />
+      <h3 class="commandHeader" id="commandtext" ng-click="changeText()">Command</h3>
+    <hr/>
+
+    <!-- EMAIL AND PASSWORD FIELD -->
+    <div id="HomeB1">
+      <div id="error" ng-if="errorpopup != '' ">{{errorpopup}}</div>
+      <form>
+        <label for="password"></label>
+        <input ng-model="info.password" ng-change="checkMatch()" type="password" id="password" name="password" placeholder="PASSWORD" required>
+        <div style="text-align: center;">
+          <div>
+            <button >LOGIN</button>
+            </div>
+          <button style="opacity:0;cursor:default" ng-click="LogUser()">W</button>
+        </div>
+         
+      </form>
+    </div>
+  </div>
+</body>
+</html>

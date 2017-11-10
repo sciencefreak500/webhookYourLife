@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<body>
+  <div id="S" class="w3-animate-opacity" >
+    <img src="../img/download2.png" /><hr />
+
+    <div ng-if="thankyou == false">
+
+  <!-- _______________________NAVIGATION BAR AND ERROR MESSAGE WILL APPEAR HERE _______________________-->
+    <div id="S1">
+      <div id="error" ng-if="errorpopup != '' && thankyou == false ">{{errorpopup}}</div>
+      <button ng-click="selectCompanyInformation()" id="companyInfo" > Eoko Information </button>
+      <button ng-click="selectCompanyContact()" id="companyContact" > Eoko Contact </button>
+      <button ng-click="selectCompanyAccount()" id="companyAccount"> Eoko Account </button>
+    </div>
+
+  <!-- _______________________ FORM FOR COMPANY INFORMATION __________________________________________ -->
+    <div id="S2">
+      <form ng-if="tabSelected == 'companyInfo'">
+        <label for="companyName">Eoko Name* </label>
+        <input ng-model="info.companyName" type="text" id="companyName" name="companyName" required /><br />
+
+        <label for="catname">Category* </label>
+        <select name="Category" ng-model="info.category" ng-options="x for x in categoryOptions" required></select>
+        <br><br>
+        <input id="autocomplete" placeholder="Enter your address"
+         ng-click="geolocate()" type="text"></input>
+
+        <!-- <label for="buldingName">Building Name* </label>
+        <input ng-model="info.buildingName" type="text" id="buldingName" name="buldingName" required /><br /> -->
+        <div style="padding: 5px;border-left: 3px solid #a6acaf;margin: 8px;">
+          <label for="address"> Address* </label>
+          <input ng-model="info.address" type="text" id="address" name="address" required /><br />
+          <label id="la2" for="address2"> Address 2 </label>
+          <input ng-model="info.address2" type="text" id="address2" name="address2" /><br />
+          <label for="city">City*</label>
+          <input ng-model="info.city" type="text" id="city" name="city" required />
+          <div id="S2A">
+            <label for="state">State* </label>
+            <input ng-model="info.state" type="text" id="state" name="state" required /><br />
+            <label for="zip">Zip* </label>
+            <input ng-model="info.zip" type="text" id="zip" name="zip" required />
+          </div>
+        </div>
+
+        <button ng-click="selectCompanyContact()">NEXT <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+      </form>
+    </div>
+
+
+
+  <!-- _________________________________FORM FOR COMPANY CONTACT_____________________________________ -->
+    <div id="S3">
+    <form ng-if="tabSelected == 'companyContact'">
+
+        <!-- _______________________PRIMARY AND SECONDARY CONTACT NAVIGATION_______________________ -->
+        <!--LABEL FOR PRIMARY CONTACT -->
+        <div id= "CON1">
+          <label for="firstname">First Name*</label>
+          <input ng-model="info.firstname" type="text" id="firstname" name="firstname" required><br>
+          <label for="lastname">Last Name*</label>
+          <input ng-model="info.lastname" type="text" id="lastname" name="lastname" required><br>
+          <label for="title">Title/Position</label>
+          <input ng-model="info.title" type="text" id="title" name="title"><br>
+          <label for="email">Email*</label>
+          <input ng-model="info.email" type="email" id="email" name="email" required><br>
+          <div id="S3A">
+            <label for="phonenumber">Phone Number*</label>
+            <input ng-model="info.phonenumber" type="tel" id="phonenumber" name="phonenumber" required><br>
+            <label for="faxnumber">Fax Number</label>
+            <input ng-model="info.faxnumber" type="tel" id="faxnumber" name="faxnumber" required><br>
+          </div>
+        </div>
+
+        <button ng-click="selectCompanyAccount()">NEXT <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+     </form>
+    </div>
+
+
+<!-- _________________________________  COMPANY ACCOUNT FORM _________________________________ -->
+  <div id="S4">
+    <form ng-if="tabSelected == 'companyAccount'">
+
+      <!-- <label>Choose your tier</label>
+
+      <table>
+        <tr>
+          <th><button ng-click="eoko.version = 'false'" style="font-weight:normal;">Free</button></th>
+          <th><button ng-click="eoko.version = 'true'" style="font-weight:normal;">Eoko+</button></th>
+        </tr>
+      </table>
+      <br> -->
+      
+      <label for="orgcode">Eoko Code</label>
+      <input ng-model="orgcode" ng-model-options="{ debounce: 1000 }" ng-change="checkOrgcodeExists(orgcode)" ng-init="checkOrgcodeExists('test')" type="text" id="orgcode" name="orgcode">
+      <div id="orgcode_exists_indicator"></div>
+
+      <label for="password">Password*</label>
+      <input ng-model="signed.password" ng-change="checkMatch()" type="password" id="password" name="password" required>
+      <div id="matching_indicator"></div>
+
+
+      <label for="confirmpass">Confirm Password*</label>
+      <input ng-model="signed.matching" ng-change="checkMatch()" type="password" id="confirmpass" name="confirmpass" required>
+      <div id="matching_indicator2"></div>
+
+      <button ng-disabled="!matching" ng-click="submitInfo()">SIGN UP</button>
+    </form>
+  </div>
+</div>
+</div>
+
+<div id="SThank" ng-if="thankyou == true">
+  <h3 class="thankYouText">Thank you for becoming an Eoko Leader!</h3>
+  
+  <h3 class="thankYouText">Share the eoko code below to have people join your private community!</h3>
+  <hr>
+
+  <div style="text-align: center; margin: 0 auto;">
+    <h2 class="eokoCodeDisplay">{{buildingcode}}</h2>
+  </div>
+
+  <hr>
+
+  <h3 class="thankYouText">This code will also be available inside the dashboard under the "Manage Eoko" tag.</h3>
+  <div style="margin:0 20%;">
+    <button ui-sref="home">Login to Dashboard</button>
+  </div>
+  
+</div>
+
+
+</body>

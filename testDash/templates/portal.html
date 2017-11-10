@@ -1,0 +1,60 @@
+
+  <!-- ________________ VERTICAL NAVIGATION BAR  ________________ -->
+  <div id="A" class="w3-animate-opacity" ng-init="checkLogged()">
+    <div id="A1"><a id="residentsTab" ng-click="selector(3)">MEMBERS</a><br></div>
+    <div id="A2"><a id="approveTab" ng-click="selector(4)">APPROVE</a><br></div>
+    <div id="A3"><a id="myEventsTab" ng-click="selector(5)">MY EVENTS</a><br></div>
+    
+
+    <div id="A7"><a id="analysisTab" ng-click="selector(9)">ANALYTICS</a><br></div>
+
+    <div id="A5"><a id="rankingTab" ng-click="selector(7)">RANKING</a><br></div>
+    <div id="A6"><a id="logoutTab" ng-click="selector(8)"> LOGOUT</a></div>
+  </div>
+
+
+<!-- ________________________ MAIN CONTENT_____________________________ -->
+<div id="mainBody">
+<!-- _________________________ TAB FOR RESIDENTS__________________________ -->
+<div id="C" ng-if="selection.tab == 'Residents'">
+
+<button ng-click="cleanActions()">Delete Expired Actions</button>
+<button ng-click="cleanChats()">Clean up Chats</button>
+<button ng-click="cleanUsers()">Clean Users</button>
+</div>
+
+<!-- _________________________ TAB FOR APPROVE __________________________ -->
+  <div id="G" ng-if="selection.tab == 'Approve'">
+
+  bbbbbbbbb
+
+  </div>
+
+<!-- _________________________ TAB FOR APPROVE __________________________ -->
+  <div id="G" ng-if="selection.tab == 'My Events'">
+
+  bbbbbbbbb
+
+  </div>
+
+<!-- _______________________________________ TAB FOR RANKING _____________________________________ -->
+  <div id="H" ng-if="selection.tab == 'Ranking'">
+
+  dddddddddddd
+
+  </div>
+
+
+
+<!--  ANALYTICS TAB   -->
+
+  <div ng-if="selection.tab == 'Analytics'">
+
+  eeeeeeeeeee
+      
+  </div>
+
+
+
+</div>
+

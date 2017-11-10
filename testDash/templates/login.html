@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<br>
+<!--Eoko logo-->
+<div class="eoko-login-logo" ng-include src="'templates/icons/logo.html'" style="width: 50%;margin-left: 24%;"></div>
+
+<!--error message when login-->
+<div ng-if="errorpopup != '' " class="eoko-popup-error-message">{{errorpopup}}</div>
+
+<form style="margin: 0 auto; text-align: center">
+
+    <!--email field-->
+    <label for="email"></label>
+    <input ng-model="info.email" type="email" id="email" name="email" placeholder="Email" required>
+
+    <!--password field-->
+    <label for="password"></label>
+    <input ng-model="info.password" ng-change="checkMatch()" type="password" id="password" name="password"
+           placeholder="Password" required>
+
+    <!--login button-->
+    <button style="margin: 0 auto;" class="eoko-button-log-in" ng-click="LogUser()">Log In</button><br>
+
+    <!--login options-->
+    <div class="eoko-login-options">
+        <label class="eoko-label-text-field eoko-text-field-checkbox">Remember Me
+            <input type="checkbox"/>
+            <div class="eoko-text-field-checkbox-box"></div>
+        </label>
+
+        <div style="float: right">
+            <button ui-sref="signup" class="eoko-button-text">Sign up</button>
+            <label class="">|</label>
+            <a ui-sref="forgotpassword" class="eoko-button-text">Forgot your password?</a>
+        </div>
+    </div>
+
+</form>
