@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>hooks dash</title>
+</head>
+<body>	
+
+<script>
+function sendHook(trigger){
+	var xhr = new XMLHttpRequest(); 
+	xhr.open("POST", 'https://milord-desktop.ngrok.io/webhook', true); 
+	xhr.setRequestHeader('Content-Type', 'application/json'); 
+	xhr.send(JSON.stringify({ 'data': trigger }));
+}
+</script>
+
+<button onclick="sendHook('test')">test</button>
+<button onclick="sendHook('cmd')">cmd</button>
+<button onclick="sendHook('discord')">discord</button>
+
+
+</body>
+</html>
