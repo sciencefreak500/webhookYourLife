@@ -1,4 +1,5 @@
 from PyQt4 import QtCore, QtGui
+from functools import partial
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -33,24 +34,7 @@ class Ui_CompGUIWindow(object):
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.verticalLayout = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.widget = QtGui.QWidget(self.scrollAreaWidgetContents)
-        self.widget.setMinimumSize(QtCore.QSize(0, 60))
-        self.widget.setObjectName(_fromUtf8("widget"))
-        self.horizontalLayout = QtGui.QHBoxLayout(self.widget)
-        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.triggerLine = QtGui.QLineEdit(self.widget)
-        self.triggerLine.setObjectName(_fromUtf8("triggerLine"))
-        self.horizontalLayout.addWidget(self.triggerLine)
-        self.filepathLine = QtGui.QLineEdit(self.widget)
-        self.filepathLine.setObjectName(_fromUtf8("filepathLine"))
-        self.horizontalLayout.addWidget(self.filepathLine)
-        self.filePathButton = QtGui.QToolButton(self.widget)
-        self.filePathButton.setObjectName(_fromUtf8("filePathButton"))
-        self.horizontalLayout.addWidget(self.filePathButton)
-        self.RemoveEntryButton = QtGui.QPushButton(self.widget)
-        self.RemoveEntryButton.setObjectName(_fromUtf8("RemoveEntryButton"))
-        self.horizontalLayout.addWidget(self.RemoveEntryButton)
-        self.verticalLayout.addWidget(self.widget)
+        
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -84,13 +68,67 @@ class Ui_CompGUIWindow(object):
         self.retranslateUi(CompGUIWindow)
         QtCore.QMetaObject.connectSlotsByName(CompGUIWindow)
 
+        self.triggerArray = [];
+        
+        #button press events
+        #self.saveButton.clicked.connect(self.saveJson)
+        self.addEntryButton.clicked.connect(self.newTrigger)
+        #self.exitButton.clicked.connect(self.exitAll)
+
+        #self.actionSave
+        #self.actionExit
+
+    def removeTrigger(self,num):
+        print("removing button number ",num)
+
+    def addFilePath(self,num):
+        print("adding to filepath num ", num)
+        
+    def newTrigger(self):
+        triggerNum = len(self.triggerArray)
+        print("creating new row # ",triggerNum)
+    
+        #widget properties and config
+        widget = QtGui.QWidget(self.scrollAreaWidgetContents)
+        widget.setMinimumSize(QtCore.QSize(0, 60))
+        widget.setObjectName(_fromUtf8("widget"))
+        horizontalLayout = QtGui.QHBoxLayout(widget)
+        horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        triggerLabel = QtGui.QLabel(str(triggerNum), widget)
+        triggerLabel.setObjectName(_fromUtf8("triggerLabel"))
+        horizontalLayout.addWidget(triggerLabel)
+        triggerLine = QtGui.QLineEdit(widget)
+        triggerLine.setObjectName(_fromUtf8("triggerLine"))
+        horizontalLayout.addWidget(triggerLine)
+        filepathLine = QtGui.QLineEdit(widget)
+        filepathLine.setObjectName(_fromUtf8("filepathLine"))
+        horizontalLayout.addWidget(filepathLine)
+        filePathButton = QtGui.QToolButton(widget)
+        filePathButton.setObjectName(_fromUtf8("filePathButton"))
+        horizontalLayout.addWidget(filePathButton)
+        RemoveEntryButton = QtGui.QPushButton(widget)
+        RemoveEntryButton.setObjectName(_fromUtf8("RemoveEntryButton"))
+        horizontalLayout.addWidget(RemoveEntryButton)
+
+        #visual text edits
+        triggerLine.setPlaceholderText(_translate("CompGUIWindow", "Trigger Word", None))
+        filepathLine.setPlaceholderText(_translate("CompGUIWindow", "File path of Program to execute", None))
+        filePathButton.setText(_translate("CompGUIWindow", "...", None))
+        RemoveEntryButton.setText(_translate("CompGUIWindow", "Remove", None))
+
+        #button triggers
+        RemoveEntryButton.clicked.connect(partial(self.removeTrigger,num=triggerNum))
+        filePathButton.clicked.connect(partial(self.addFilePath,num=triggerNum))
+
+        #add the widget obj to the array
+        self.triggerArray.append(widget)
+        self.verticalLayout.addWidget(self.triggerArray[triggerNum])
+
+        
     def retranslateUi(self, CompGUIWindow):
         CompGUIWindow.setWindowTitle(_translate("CompGUIWindow", "Computer Trigger Configuration", None))
         self.saveButton.setText(_translate("CompGUIWindow", "Save", None))
-        self.triggerLine.setPlaceholderText(_translate("CompGUIWindow", "Trigger Word", None))
-        self.filepathLine.setPlaceholderText(_translate("CompGUIWindow", "File path of Program to execute", None))
-        self.filePathButton.setText(_translate("CompGUIWindow", "...", None))
-        self.RemoveEntryButton.setText(_translate("CompGUIWindow", "Remove", None))
+        
         self.addEntryButton.setText(_translate("CompGUIWindow", "Add Entry", None))
         self.exitButton.setText(_translate("CompGUIWindow", "Exit", None))
         self.menuFile.setTitle(_translate("CompGUIWindow", "File", None))
