@@ -1,5 +1,6 @@
 from PyQt4 import QtCore, QtGui
 from functools import partial
+import json
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -35,10 +36,13 @@ class Ui_CompGUIWindow(object):
         self.verticalLayout = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         
-        spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem)
+                
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 1, 0, 1, 3)
+
+        spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
+        
         self.addEntryButton = QtGui.QPushButton(self.centralwidget)
         self.addEntryButton.setObjectName(_fromUtf8("addEntryButton"))
         self.gridLayout.addWidget(self.addEntryButton, 0, 0, 1, 1)
@@ -69,22 +73,45 @@ class Ui_CompGUIWindow(object):
         QtCore.QMetaObject.connectSlotsByName(CompGUIWindow)
 
         self.triggerArray = [];
+
+        self.readJson()
         
         #button press events
         #self.saveButton.clicked.connect(self.saveJson)
-        self.addEntryButton.clicked.connect(self.newTrigger)
+        self.addEntryButton.clicked.connect(partial(self.newTrigger,trigger=None,path=None))
         #self.exitButton.clicked.connect(self.exitAll)
 
         #self.actionSave
         #self.actionExit
 
+    def readJson(self):
+        print("reading json")
+        data = json.load(open('data.json'))
+        for key in data:
+            print(key, data[key])
+            print("populate UI")
+            self.newTrigger(key,data[key])
+                
+
     def removeTrigger(self,num):
-        print("removing button number ",num)
+        remObj = self.triggerArray[num]
+        self.verticalLayout.removeWidget(self.triggerArray[num])
+        self.triggerArray[num].deleteLater()
+        self.triggerArray[num] = None
+        #print("removing button number ",num)
+        #self.triggerArray.remove(remObj)
 
     def addFilePath(self,num):
         print("adding to filepath num ", num)
+        filename = QtGui.QFileDialog.getOpenFileName(self.triggerArray[num],'Find Path')
+        print("the path is", filename)
+        fileline = self.triggerArray[num].findChild(QtGui.QLineEdit, "filepathLine")
+        fileline.setText(_translate("CompGUIWindow",filename,None))
+
+        #edit the json file too
+
         
-    def newTrigger(self):
+    def newTrigger(self, trigger, path):
         triggerNum = len(self.triggerArray)
         print("creating new row # ",triggerNum)
     
@@ -94,9 +121,9 @@ class Ui_CompGUIWindow(object):
         widget.setObjectName(_fromUtf8("widget"))
         horizontalLayout = QtGui.QHBoxLayout(widget)
         horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        triggerLabel = QtGui.QLabel(str(triggerNum), widget)
-        triggerLabel.setObjectName(_fromUtf8("triggerLabel"))
-        horizontalLayout.addWidget(triggerLabel)
+        #triggerLabel = QtGui.QLabel(str(triggerNum), widget)
+        #triggerLabel.setObjectName(_fromUtf8("triggerLabel"))
+        #horizontalLayout.addWidget(triggerLabel)
         triggerLine = QtGui.QLineEdit(widget)
         triggerLine.setObjectName(_fromUtf8("triggerLine"))
         horizontalLayout.addWidget(triggerLine)
@@ -116,14 +143,21 @@ class Ui_CompGUIWindow(object):
         filePathButton.setText(_translate("CompGUIWindow", "...", None))
         RemoveEntryButton.setText(_translate("CompGUIWindow", "Remove", None))
 
-        #button triggers
-        RemoveEntryButton.clicked.connect(partial(self.removeTrigger,num=triggerNum))
-        filePathButton.clicked.connect(partial(self.addFilePath,num=triggerNum))
+        if trigger:
+            triggerLine.setText(_translate("CompGUIWindow",trigger,None))
 
+        if path:
+            filepathLine.setText(_translate("CompGUIWindow",path,None))
+            
         #add the widget obj to the array
         self.triggerArray.append(widget)
         self.verticalLayout.addWidget(self.triggerArray[triggerNum])
 
+        #button triggers
+        RemoveEntryButton.clicked.connect(partial(self.removeTrigger,num=triggerNum))
+        filePathButton.clicked.connect(partial(self.addFilePath,num=triggerNum))
+
+        
         
     def retranslateUi(self, CompGUIWindow):
         CompGUIWindow.setWindowTitle(_translate("CompGUIWindow", "Computer Trigger Configuration", None))
