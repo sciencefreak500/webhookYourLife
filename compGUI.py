@@ -1,6 +1,8 @@
 from PyQt4 import QtCore, QtGui
 from functools import partial
 import json
+import atexit
+import os
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -77,14 +79,37 @@ class Ui_CompGUIWindow(object):
         self.readJson()
         
         #button press events
-        #self.saveButton.clicked.connect(self.saveJson)
+        self.saveButton.clicked.connect(self.saveJson)
         self.addEntryButton.clicked.connect(partial(self.newTrigger,trigger=None,path=None))
-        #self.exitButton.clicked.connect(self.exitAll)
+        self.exitButton.clicked.connect(self.exitAll)
 
-        #self.actionSave
-        #self.actionExit
+        self.actionSave.triggered.connect(self.saveJson)
+        self.actionExit.triggered.connect(self.exitAll)
 
+    def exitAll(self):
+        self.saveJson()
+        app.quit()
+        sys.exit()
+    
+    def saveJson(self):
+        print("saving json")
+        print(self.triggerArray)
+        data = {}
+        for i in self.triggerArray:
+            if i is not None:
+                triggerText = i.findChild(QtGui.QLineEdit,"triggerLine").text()
+                pathText = i.findChild(QtGui.QLineEdit,"filepathLine").text()
+                if triggerText != "" or pathText != "":
+                    data[triggerText] = pathText
+        print("full", data)
+        with open('data.json','w') as file:
+            json.dump(data,file)
+    
     def readJson(self):
+        if not os.path.isfile('data.json'):
+            file = open('data.json','w')
+            file.write("{}")
+            file.close()
         print("reading json")
         data = json.load(open('data.json'))
         for key in data:
@@ -158,7 +183,6 @@ class Ui_CompGUIWindow(object):
         filePathButton.clicked.connect(partial(self.addFilePath,num=triggerNum))
 
         
-        
     def retranslateUi(self, CompGUIWindow):
         CompGUIWindow.setWindowTitle(_translate("CompGUIWindow", "Computer Trigger Configuration", None))
         self.saveButton.setText(_translate("CompGUIWindow", "Save", None))
@@ -177,5 +201,7 @@ if __name__ == "__main__":
     ui = Ui_CompGUIWindow()
     ui.setupUi(CompGUIWindow)
     CompGUIWindow.show()
-    sys.exit(app.exec_())
+    progRun = app.exec_()
+    ui.saveJson()
+    sys.exit(progRun)
 

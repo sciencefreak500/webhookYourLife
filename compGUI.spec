@@ -5,8 +5,8 @@ block_cipher = None
 
 a = Analysis(['compGUI.py'],
              pathex=['D:\\Projects\\webhookYourLife'],
-             binaries=None,
-             datas=None,
+             binaries=[],
+             datas=[],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
