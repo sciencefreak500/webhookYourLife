@@ -25,7 +25,7 @@ app.post('/webhook', function (req, res) {
 	  for(var i in obj){
 	  	if(i == req.body.data){
 	  		console.log("running ", obj[i]);
-	  		cp.exec(obj[i]);
+	  		cp.spawn(obj[i]);
 	  		return;
 	  	}
 	  }
